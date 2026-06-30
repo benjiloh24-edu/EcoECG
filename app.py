@@ -13,7 +13,7 @@ if 'step' not in st.session_state:
 if 'answers' not in st.session_state:
     st.session_state.answers = {}
 
-# Corrected parameter on Line 17 to prevent the crash
+# Corrected style injection
 st.markdown("<style>.stButton>button { width: 100%; border-radius: 8px; }</style>", unsafe_allow_html=True)
 
 st.title("🚀 Vocational Student Journey Guide")
@@ -68,7 +68,7 @@ elif st.session_state.step == "path1_step1":
             st.rerun()
     with col2:
         if st.button("Next ➡️"):
-            st.session_state.answers['p1_q1'] = p1_q1 if p1_q1 else ["No specific option selected"]
+            st.session_state.answers['p1_q1'] = p1_q1
             st.session_state.step = "path1_step2"
             st.rerun()
 
@@ -91,7 +91,7 @@ elif st.session_state.step == "path1_step2":
             st.rerun()
     with col2:
         if st.button("Next ➡️"):
-            st.session_state.answers['p1_q2'] = p1_q2 if p1_q2 else ["No specific option selected"]
+            st.session_state.answers['p1_q2'] = p1_q2
             st.session_state.step = "path1_step3"
             st.rerun()
 
@@ -113,7 +113,7 @@ elif st.session_state.step == "path1_step3":
             st.rerun()
     with col2:
         if st.button("Generate My Survival Strategy 📋"):
-            st.session_state.answers['p1_q3'] = p1_q3 if p1_q3 else ["No specific option selected"]
+            st.session_state.answers['p1_q3'] = p1_q3
             st.session_state.step = "results_path1"
             st.rerun()
 
@@ -145,7 +145,7 @@ elif st.session_state.step == "path2_screener":
             st.rerun()
 
 # ==========================================
-# PATH 2A: EXCEL - OPTIMIZATION ROUTE (NO PROBLEMS)
+# PATH 2A: EXCEL - OPTIMIZATION ROUTE
 # ==========================================
 elif st.session_state.step == "path2a_step1":
     st.header("🏆 Step 1: Your Target Milestone")
@@ -155,7 +155,7 @@ elif st.session_state.step == "path2a_step1":
             "A flawless GPA and academic accolades.",
             "A high-profile internship/attachment at a dream company.",
             "Mastering elite technical skills to step straight into a premium industry role.",
-            "Securing a direct and seamless pathway into further polytechnic education."
+            "Securing a direct and seamless pathway into further university education."
         ]
     )
     
@@ -166,7 +166,7 @@ elif st.session_state.step == "path2a_step1":
             st.rerun()
     with col2:
         if st.button("Next ➡️"):
-            st.session_state.answers['p2a_q1'] = p2a_q1 if p2a_q1 else ["No specific option selected"]
+            st.session_state.answers['p2a_q1'] = p2a_q1
             st.session_state.step = "path2a_step2"
             st.rerun()
 
@@ -188,7 +188,7 @@ elif st.session_state.step == "path2a_step2":
             st.rerun()
     with col2:
         if st.button("Build My Optimization Blueprint 📊"):
-            st.session_state.answers['p2a_q2'] = p2a_q2 if p2a_q2 else ["No specific option selected"]
+            st.session_state.answers['p2a_q2'] = p2a_q2
             st.session_state.step = "results_path2a"
             st.rerun()
 
@@ -213,7 +213,7 @@ elif st.session_state.step == "path2b_step1":
             st.rerun()
     with col2:
         if st.button("Next ➡️"):
-            st.session_state.answers['p2b_q1'] = p2b_q1 if p2b_q1 else ["No specific option selected"]
+            st.session_state.answers['p2b_q1'] = p2b_q1
             st.session_state.step = "path2b_step2"
             st.rerun()
 
@@ -234,7 +234,7 @@ elif st.session_state.step == "path2b_step2":
             st.rerun()
     with col2:
         if st.button("Generate Strategic Solution 💡"):
-            st.session_state.answers['p2b_q2'] = p2b_q2 if p2b_q2 else ["No specific option selected"]
+            st.session_state.answers['p2b_q2'] = p2b_q2
             st.session_state.step = "results_path2b"
             st.rerun()
 
@@ -245,23 +245,21 @@ elif st.session_state.step == "results_path1":
     st.header("📋 Your Custom Harm-Reduction Plan")
     st.info("You're in survival mode right now, and that's okay. Let's make things easier.")
     
-    st.subheader("🔍 Your Selections")
-    st.write(f"**Morning Reality:** {', '.join(st.session_state.answers['p1_q1'])}")
-    st.write(f"**The Vibe Killer:** {', '.join(st.session_state.answers['p1_q2'])}")
-    st.write(f"**Energy Vent:** {', '.join(st.session_state.answers['p1_q3'])}")
+    # Safely extract values
+    ans_q1 = st.session_state.answers.get('p1_q1', [])
+    ans_q2 = st.session_state.answers.get('p1_q2', [])
+    ans_q3 = st.session_state.answers.get('p1_q3', [])
     
     st.subheader("💡 Strategic Advice")
     
-    any_boring = any("boring" in item.lower() for item in st.session_state.answers['p1_q2'])
-    any_gaming = any("gaming" in item.lower() for item in st.session_state.answers['p1_q3'])
-    
-    if any_boring:
-        st.success("⚙️ **The Trade Mindset:** If the theory modules feel useless, stop chasing 'passion.' Treat school like an unpaid apprenticeship. Show up, secure the minimum pass requirements for the technical cert, build muscle memory in labs, and get out into the workforce where the real money is made.")
-    if any_gaming:
-        st.warning("🎮 **The 4 AM Loop Hack:** Gaming triggers dopamine that makes sleep impossible. If you can't stop gaming, don't try to quit—just set a hard 'Screen Down' alarm 45 minutes before your bed target. Give your brain time to cool down so morning labs don't feel physically painful.")
-        
-    if not any_boring and not any_gaming:
-        st.info("🛡️ **System Recovery Plan:** Focus exclusively on your basic vitals this week. Show up to your practical labs to secure structural attendance, let theory micro-tasks sit in second gear, and prioritize rest over structural compliance.")
+    # Bulletproof matching logic loops
+    for item in ans_q2:
+        if "boring" in item.lower():
+            st.success("⚙️ **The Trade Mindset:** If the theory modules feel useless, stop chasing 'passion.' Treat school like an unpaid apprenticeship. Show up, secure the minimum pass requirements for the technical cert, build muscle memory in labs, and get out into the workforce where the real money is made.")
+            
+    for item in ans_q3:
+        if "gaming" in item.lower():
+            st.warning("🎮 **The 4 AM Loop Hack:** Gaming triggers dopamine that makes sleep impossible. If you can't stop gaming, don't try to quit—just set a hard 'Screen Down' alarm 45 minutes before your bed target. Give your brain time to cool down so morning labs don't feel physically painful.")
 
     if st.button("🔄 Reset Check-In"):
         st.session_state.clear()
@@ -271,19 +269,18 @@ elif st.session_state.step == "results_path2a":
     st.header("📊 Your High-Performance Blueprint")
     st.success("System Status: Firing on all cylinders. Let's maximize your ceiling.")
     
-    st.subheader("🔍 Target Settings")
-    st.write(f"**Target Crowns:** {', '.join(st.session_state.answers['p2a_q1'])}")
-    st.write(f"**Execution Engines:** {', '.join(st.session_state.answers['p2a_q2'])}")
+    ans_q1 = st.session_state.answers.get('p2a_q1', [])
+    ans_q2 = st.session_state.answers.get('p2a_q2', [])
     
     st.subheader("🚀 Optimization Tactics")
     
-    any_internship = any("internship" in item.lower() for item in st.session_state.answers['p2a_q1'])
-    any_spontaneous = any("spontaneous" in item.lower() for item in st.session_state.answers['p2a_q2'])
-    
-    if any_internship:
-        st.info("💼 **The Digital Portfolio Play:** Since you have the drive, don't wait for your institute's attachment phase. Start snapping clean photos/videos of your practical workshop fabrications or projects now. Create a simple portfolio to display your practical craftsmanship directly to employers.")
-    if any_spontaneous:
-        st.info("⚡ **Agile Sprints:** Since routines aren't your style, lean into 'Time Box Sprints'. When a burst hits, map out exactly 3 ultra-high-impact project tasks. Execute them furiously, then allow yourself to step completely away without guilt.")
+    for item in ans_q1:
+        if "internship" in item.lower():
+            st.info("💼 **The Digital Portfolio Play:** Since you have the drive, don't wait for your institute's attachment phase. Start snapping clean photos/videos of your practical workshop fabrications or projects now. Create a simple portfolio to display your practical craftsmanship directly to employers.")
+            
+    for item in ans_q2:
+        if "spontaneous" in item.lower():
+            st.info("⚡ **Agile Sprints:** Since routines aren't your style, lean into 'Time Box Sprints'. When a burst hits, map out exactly 3 ultra-high-impact project tasks. Execute them furiously, then allow yourself to step completely away without guilt.")
 
     if st.button("🔄 Reset Check-In"):
         st.session_state.clear()
@@ -293,19 +290,18 @@ elif st.session_state.step == "results_path2b":
     st.header("💡 Your Tactical Roadmap")
     st.warning("System Status: Ambitious but bottlenecked. Let's fix the friction.")
     
-    st.subheader("🔍 Diagnostics")
-    st.write(f"**The Bottlenecks:** {', '.join(st.session_state.answers['p2b_q1'])}")
-    st.write(f"**Coping Mechanisms:** {', '.join(st.session_state.answers['p2b_q2'])}")
+    ans_q1 = st.session_state.answers.get('p2b_q1', [])
+    ans_q2 = st.session_state.answers.get('p2b_q2', [])
     
     st.subheader("🛠️ Strategic Adjustments")
     
-    any_imposter = any("imposter" in item.lower() for item in st.session_state.answers['p2b_q1'])
-    any_allnighter = any("all-nighters" in item.lower() for item in st.session_state.answers['p2b_q2'])
-    
-    if any_imposter:
-        st.error("🛡️ **Combatting Imposter Syndrome:** High achievers assume everyone else knows exactly what they are doing. They don't. Your practical competence builds via deliberate mistakes. Next lab session, focus exclusively on mastering *one* mechanical technique rather than racing to finish the module first.")
-    if any_allnighter:
-        st.warning("🔋 **Battery Management:** All-nighters provide a temporary high but crater your cognitive abilities during manual practical tests. Trade one late study block for a solid 7-hour sleep block—the neurological focus boost will double your task-execution speed the next day.")
+    for item in ans_q1:
+        if "imposter" in item.lower():
+            st.error("🛡️ **Combatting Imposter Syndrome:** High achievers assume everyone else knows exactly what they are doing. They don't. Your practical competence builds via deliberate mistakes. Next lab session, focus exclusively on mastering *one* mechanical technique rather than racing to finish the module first.")
+            
+    for item in ans_q2:
+        if "all-nighters" in item.lower():
+            st.warning("🔋 **Battery Management:** All-nighters provide a temporary high but crater your cognitive abilities during manual practical tests. Trade one late study block for a solid 7-hour sleep block—the neurological focus boost will double your task-execution speed the next day.")
 
     if st.button("🔄 Reset Check-In"):
         st.session_state.clear()
